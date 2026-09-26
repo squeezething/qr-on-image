@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const target = new URL(request.nextUrl.searchParams.get("url") ?? "");
     if (!["http:", "https:"].includes(target.protocol) || isPrivateHost(target.hostname)) return new Response("URL gambar tidak valid.", { status: 400 });
 
-    const response = await fetch(target, { redirect: "follow", headers: { "User-Agent": "QR-Panen/1.0" } });
+    const response = await fetch(target, { redirect: "follow", headers: { "User-Agent": "QR-on-Image/1.0" } });
     if (!response.ok || !response.body) return new Response("Gambar tidak dapat diambil.", { status: 422 });
     const type = response.headers.get("content-type")?.split(";")[0] ?? "";
     const length = Number(response.headers.get("content-length") ?? 0);

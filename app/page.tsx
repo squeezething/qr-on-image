@@ -34,7 +34,13 @@ export default function Home() {
       const blob = await response.blob();
       if (!blob.type.startsWith("image/")) throw new Error("Tautan tidak mengarah ke file gambar.");
       const bitmap = await createImageBitmap(blob);
-      const decoded = await readBarcodes(blob, { formats: ["QRCode"], tryHarder: true, maxNumberOfSymbols: 255 });
+      const canvas = document.createElement("canvas");
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error("Gambar gagal diproses.");
+      context.drawImage(bitmap, 0, 0);
+      const decoded = await readBarcodes(context.getImageData(0, 0, canvas.width, canvas.height), { formats: ["QRCode"], tryHarder: true, maxNumberOfSymbols: 255 });
       const found = decoded.filter((item) => item.isValid).map(({ text, position }) => {
         const points = Object.values(position);
         const xs = points.map((point) => point.x);
@@ -99,7 +105,7 @@ export default function Home() {
               <QrCode className="size-5" strokeWidth={2.5} />
             </span>
             <div>
-              <p className="font-display text-lg font-bold tracking-[-.02em]">QR Panen</p>
+              <p className="font-display text-lg font-bold tracking-[-.02em]">QR on Image</p>
               <p className="text-xs text-white/40">Multi-code image scanner</p>
             </div>
           </div>
