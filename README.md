@@ -14,6 +14,10 @@ Pemindaian file unggahan dilakukan di browser. Gambar dari URL diambil melalui e
 
 ## Menjalankan secara lokal
 
+### Sekali klik di macOS
+
+Klik dua kali `Jalankan QR on Image.command`. Script akan memasang dependensi jika diperlukan, menjalankan development server, lalu membuka aplikasi di browser.
+
 ### Persyaratan
 
 - Node.js 22.13 atau lebih baru
